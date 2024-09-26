@@ -20,7 +20,7 @@ describe('format', () => {
 
   it('should format a done todo', () => {
     const todo = { title: 'todo title', id: 1, done: true };
-    const expected = '1 - [x] todo title';
+    const expected = '1 - [✅] todo title';
 
     const current = format(todo)
 
@@ -35,7 +35,7 @@ describe('formatList', () => {
       { title: 'todo title 2', id: 2, done: false }
     ];
     const expected = [
-      '1 - [x] todo title',
+      '1 - [✅] todo title',
       '2 - [ ] todo title 2'
     ];
 

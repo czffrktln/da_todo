@@ -4,6 +4,9 @@ import { AppError } from './app-error.js';
 import { validateAddParams } from './validate.js';
 
 export function createApp(todoStore, args) {
+  // const a = [1, 2, 3, 4]
+  // const [ one, two, ...rest] = a
+  // -> = [3, 4]
   const [, , command, ...params] = args;
 
   switch (command) {
