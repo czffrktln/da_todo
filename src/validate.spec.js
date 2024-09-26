@@ -11,11 +11,14 @@ describe('validateAddParams', () => {
   })
 
   it('should pass and return with the original params with single string separated with spaces', () => {
+    // Align
     const params = ['Todo Item'];
     const expected = ['Todo Item'];
     
+    //Act
     const current = validateAddParams(params);
 
+    //Assert
     expect(current).toStrictEqual(expected);
   })
 
