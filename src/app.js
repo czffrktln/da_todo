@@ -1,7 +1,7 @@
-import { list, formatList, format, add, findByTitle } from './todo.js';
+import { list, formatList, format, add, findByTitle, complete } from './todo.js';
 import { display } from './display.js';
 import { AppError } from './app-error.js';
-import { validateAddParams, validateSearchParams } from './validate.js';
+import { validateAddParams, validateSearchParams, validateCompleteParams } from './validate.js';
 
 export function createApp(todoStore, args) {
   // const a = [1, 2, 3, 4]
@@ -20,7 +20,7 @@ export function createApp(todoStore, args) {
     case 'add':
       const validated = validateAddParams(params);
       const added = add(todoStore, validated);
-      display(['New Todo added:', format(added)])
+      display(['New Todo added:', format(added)]);
       break;
     case 'find-by-title':
       const validatedSearchParam = validateSearchParams(params)
@@ -30,6 +30,11 @@ export function createApp(todoStore, args) {
       } else {
         display(['Filtered todos:', ...formatList(foundTodos)])
       }
+      break;
+    case "complete":
+      const validatedId = validateCompleteParams(params)
+      const completedTodo = complete(todoStore, validatedId);
+      display(['Your todo is completed', format(completedTodo)]);
       break;
     default:
       throw new AppError(`Unknown command: ${command}`)
