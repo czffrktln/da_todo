@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals';
-import { add, format, formatList, list } from './todo.js';
+import { add, format, formatList, list, findByTitle } from './todo.js';
 
 function createMockStore(data) {
   return {
@@ -20,7 +20,7 @@ describe('format', () => {
 
   it('should format a done todo', () => {
     const todo = { title: 'todo title', id: 1, done: true };
-    const expected = '1 - [x] todo title';
+    const expected = '1 - [✅] todo title';
 
     const current = format(todo)
 
@@ -35,7 +35,7 @@ describe('formatList', () => {
       { title: 'todo title 2', id: 2, done: false }
     ];
     const expected = [
-      '1 - [x] todo title',
+      '1 - [✅] todo title',
       '2 - [ ] todo title 2'
     ];
 
@@ -135,6 +135,24 @@ describe('add', () => {
   });
 });
 
+describe("findByTitle", () => {
+  it("should return all todos, which are contains case-insensitive searchparam", () => {
+    const params = ["cle"]
+    const stored = [
+      {id: 1, title: 'Clean kithcen', done: false},
+      {id: 2, title: 'Car cleaning', done: true},
+      {id: 3, title: 'Pay bills', done: false},
+    ];
+    const mockStore = createMockStore(stored);
+    const expected = [
+      {id: 1, title: 'Clean kithcen', done: false},
+      {id: 2, title: 'Car cleaning', done: true},
+    ]
 
+    const current = findByTitle(mockStore, params);
+
+    expect(current).toStrictEqual(expected);
+  })
+})
 
 

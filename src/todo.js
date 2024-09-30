@@ -1,3 +1,4 @@
+
 export function format(todo) {
   return `${todo.id} - [${todo.done ? '✅': ' '}] ${todo.title}`;
 }
@@ -30,4 +31,12 @@ export function add(store, params) {
   const toStore = [...todos, newTodo]
   store.set(toStore)
   return newTodo;
+}
+
+export function findByTitle(store, params) {
+  const [searchParam] = params;
+  const todos = store.get()
+  // const filteredTodos = todos.filter(t => t.title.match(new RegExp(searchParam, "i")))
+  const filteredTodos = todos.filter(t => t.title.toLowerCase().match(searchParam.toLowerCase()))
+  return filteredTodos;
 }
