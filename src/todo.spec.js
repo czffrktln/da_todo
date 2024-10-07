@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals';
-import { add, format, formatList, list, findByTitle } from './todo.js';
+import { add, format, formatList, list, findByTitle, complete } from './todo.js';
 
 function createMockStore(data) {
   return {
@@ -152,7 +152,62 @@ describe("findByTitle", () => {
     const current = findByTitle(mockStore, params);
 
     expect(current).toStrictEqual(expected);
-  })
-})
+  });
+});
+
+describe('complete', () => {
+  it('should change an existing todo to done, find by id', () => {
+    const params = 1;
+    const stored = [
+      {id: 1, title: 'Todo 1', done: false}
+    ];
+    const mockStore = createMockStore(stored);
+    const expected = {
+      id: 1,
+      done: true,
+      title: 'Todo 1'
+    }
+
+    const current = complete(mockStore, params);
+
+    expect(current).toStrictEqual(expected);
+  });
+
+  it('should update todo list', () => {
+    const params = 1;
+    const stored = [
+      {id: 1, title: 'Todo 1', done: false},
+      {id: 2, title: 'Todo 2', done: false},
+      {id: 3, title: 'Todo 3', done: false}
+    ];
+    const mockStore = createMockStore(stored);
+    const expected = [
+      {id: 1, title: 'Todo 1', done: true},
+      {id: 2, title: 'Todo 2', done: false},
+      {id: 3, title: 'Todo 3', done: false}
+    ]
+
+    complete(mockStore, params);
+
+    expect(mockStore.set.mock.calls[0][0])
+      .toStrictEqual(expected);
+  });
+
+  it('should throw an error if ID not in todolist', () => {
+    const params = 6;
+    const stored = [
+      {id: 1, title: 'Todo 1', done: false},
+      {id: 2, title: 'Todo 2', done: false},
+      {id: 3, title: 'Todo 3', done: false}
+    ];
+    const mockStore = createMockStore(stored);
+    const expected = 'There is no Todo with this ID.'
+
+    expect(() => complete(mockStore, params)).toThrow(expected)
+
+  });
+});
+
+
 
 

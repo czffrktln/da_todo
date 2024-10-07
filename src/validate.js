@@ -18,3 +18,15 @@ export function validateSearchParams(params) {
   }
   return params
 }
+
+export function validateCompleteParams(params) {
+  if(params.length !== 1) {
+    throw new AppError('Give one, and only one ID please!');
+  }
+  const [id] = params;
+
+  if (!(/^\d+$/.test(id))) {
+    throw new AppError('The ID must be a number.')
+  }
+  return +params;
+}
